@@ -2,7 +2,7 @@
 import json
 from kafka import KafkaConsumer
 
-consommateur = KafkaConsumer('type_route', group_id='group_route', bootstrap_servers='localhost:9092', enable_auto_commit=False,  auto_offset_reset='earliest')
+consommateur = KafkaConsumer('type_route', group_id='group_route', bootstrap_servers='localhost:9092')
 
 for msg in consommateur:
     ligne = json.loads(msg.value)

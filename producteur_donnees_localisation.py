@@ -16,22 +16,20 @@ current_timestamp = datetime.strptime('2024-01-21-01-00', '%Y-%m-%d-%H-%M')
 
 
 while True:
-    # Interroger le serveur de test pour obtenir les données d'un instant donné
     try:
         response = requests.get(f'{server_test_url}/{current_timestamp.strftime("%Y-%m-%d-%H-%M")}/json')
         data = response.json()
-        if isinstance(data, list):
-            for item in data:
-                key = item.get('gml_id') 
-                message = {
-                    'timestamp': current_timestamp.strftime('%Y-%m-%d %H:%M:%S'),
-                    'emplacement': item.get('gml_id')
-                    }
+        for item in data:
+            key = item.get('gml_id') 
+            message = {
+                'timestamp': current_timestamp.strftime('%Y-%m-%d %H:%M:%S'),
+                'emplacement': item.get('gml_id')
+                }
 
-                message_str = json.dumps(message)
-                print(message_str)
+            message_str = json.dumps(message)
+            print(message_str)
 
-                producteur.send('donnees_localisation', message_str.encode('utf-8'), key.encode())
+            producteur.send('donnees_localisation', message_str.encode('utf-8'), key.encode())
 
         time.sleep(1)
     except requests.exceptions.JSONDecodeError:

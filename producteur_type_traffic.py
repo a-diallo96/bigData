@@ -20,18 +20,17 @@ while True:
     try:
         response = requests.get(f'{server_test_url}/{current_timestamp.strftime("%Y-%m-%d-%H-%M")}/json')
         data = response.json()
-        if isinstance(data, list):
-            for item in data:
-                key = item.get('trafficstatus') 
-                message = {
-                    'timestamp': current_timestamp.strftime('%Y-%m-%d %H:%M:%S'),
-                    'type de trafic': item.get('trafficstatus')
-                    }
+        for item in data:
+            key = item.get('trafficstatus') 
+            message = {
+                'timestamp': current_timestamp.strftime('%Y-%m-%d %H:%M:%S'),
+                'type de trafic': item.get('trafficstatus')
+                }
 
-                message_str = json.dumps(message)
-                print(message_str)
+            message_str = json.dumps(message)
+            print(message_str)
 
-                producteur.send('type_traffic', message_str.encode('utf-8'), key.encode())
+            producteur.send('type_traffic', message_str.encode('utf-8'), key.encode())
 
         time.sleep(1)
     except requests.exceptions.JSONDecodeError:
