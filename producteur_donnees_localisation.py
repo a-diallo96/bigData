@@ -22,6 +22,7 @@ while True:
         for item in data:
             key = item.get('gml_id') 
             message = {
+                'key': key,
                 'timestamp': current_timestamp.strftime('%Y-%m-%d %H:%M:%S'),
                 'emplacement': item.get('gml_id')
                 }
